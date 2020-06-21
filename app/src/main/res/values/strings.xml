@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ProyectoGilat</string>
+    <string name="Buscador">Buscar..
+        </string>
+    <string name="status_stop"><font fgcolor='#FFFF3B30'>Stopped</font></string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
 </resources>

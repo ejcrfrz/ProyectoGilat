@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +20,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.GoogleSignatureVerifier;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,13 +31,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
+public class Main2Activity extends AppCompatActivity {
+    //VALORES GOOGLE
 
-public class MainActivity extends AppCompatActivity {
-
+    GoogleSignInAccount signInAccount;
     //VALORES FIREBASE
-     FirebaseAuth mAuth;
-     DatabaseReference mDatabase;
+    FirebaseAuth mAuth;
+    DatabaseReference mDatabase;
     String Name_DB;
     String Email_DB;
 
@@ -43,24 +45,23 @@ public class MainActivity extends AppCompatActivity {
     Button button_dialog;
     Button button_close;
     Button button_logout;
-     TextView editText_name;
-     TextView editText_email;
+    TextView editText_name;
+    TextView editText_email;
 
 
     //VALORES NAVIEW
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //----------------------------------------------------------------------------------------------------------------------
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        getUserinfo();
+
 
 //        Log.d("mrd",Name_DB);
 
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.nav_mapa:
-                        Intent i = new Intent(MainActivity.this,MapaActivity.class);
+                        Intent i = new Intent(Main2Activity.this,MapaActivity.class);
                         startActivity(i);
                         break;
                     case R.id.nav_lista:
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //----------------------------------------------------------------------------------------------------------------------
-
+         signInAccount = GoogleSignIn.getLastSignedInAccount(this);
         //----------------------------------------------------------------------------------------------------------------------
 
         button_dialog = findViewById(R.id.button_dialog);
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 showDialog();
             }
         });
+
 
 
     }
@@ -127,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
         button_logout = view.findViewById(R.id.dialog_logout);
         button_close = view.findViewById(R.id.dialog_close);
 
-        editText_name.setText(Name_DB);
-        editText_email.setText(Email_DB);
+        editText_name.setText(signInAccount.getDisplayName());
+        editText_email.setText(signInAccount.getEmail());
 
         alert.setView(view);
         alert.setCancelable(false);
@@ -139,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mAuth.signOut();
-                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                startActivity(new Intent(Main2Activity.this,LoginActivity.class));
                 finish();
             }
         });
@@ -150,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         button_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    dialog.dismiss();
+                dialog.dismiss();
             }
         });
 
@@ -158,28 +160,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getUserinfo(){
-        String id= mAuth.getCurrentUser().getUid();
-        mDatabase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-                if(dataSnapshot.exists()) {
-                    Name_DB = dataSnapshot.child("name").getValue().toString();
-                    Email_DB = dataSnapshot.child("email").getValue().toString();
-                }
-
-                }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
 
-    }
+
+
 
 
 }

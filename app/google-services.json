@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "36382409513",
+    "firebase_url": "https://proyectogilat-2ed80.firebaseio.com",
+    "project_id": "proyectogilat-2ed80",
+    "storage_bucket": "proyectogilat-2ed80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:36382409513:android:c8e24e4870582eb191ed38",
+        "android_client_info": {
+          "package_name": "com.gilat.proyectogilat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "36382409513-j22kr0q7kg77jh9el7hs9okp5or8h09d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc1yS9EjWhVgxJPUU0hdovVmpN1QQzFAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "36382409513-j22kr0q7kg77jh9el7hs9okp5or8h09d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
