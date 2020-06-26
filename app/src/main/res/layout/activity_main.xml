@@ -51,6 +51,7 @@
                 android:layout_width="47dp"
                 android:layout_height="42dp"
                 android:layout_marginStart="4dp"
+                app:itemIconTint="#8F8F8B"
                 android:src="@drawable/ic_menu"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/buscador"
@@ -84,6 +85,7 @@
                 android:layout_width="35dp"
                 android:layout_height="34dp"
                 android:background="@drawable/bg_button_sesion"
+                android:onClick="showDialog"
                 app:layout_constraintBottom_toBottomOf="@+id/buscador"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -91,6 +93,37 @@
                 app:layout_constraintTop_toTopOf="@+id/buscador"
                 app:layout_constraintVertical_bias="1.0" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutBody"
+            android:layout_width="360dp"
+            android:layout_height="220dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="176dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="235dp"
+            android:background="@drawable/header_background"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.476"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/buttonSitio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="Sitio"
+                android:text="Sitio"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
