@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item android:title="">
-        <menu>
+
         <item
             android:id="@+id/nav_mapa"
             android:icon="@drawable/ic_map_black_24dp"
@@ -13,14 +11,11 @@
             android:id="@+id/nav_lista"
             android:icon="@drawable/ic_menu"
             android:title="Lista " />
-        </menu>
 
-        </item>
-
-    </group>
 
     <group android:checkableBehavior="single">
-        <item android:title="Redes Sociales">
+        <item android:title="Redes Sociales"
+            android:id="@+id/tools">
             <menu>
                 <item
                     android:id="@+id/nav_face"

@@ -63,12 +63,16 @@ public class LoginActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         int timOfDay = c.get(Calendar.HOUR_OF_DAY);
         if (timOfDay >= 0 && timOfDay < 12) {
-            constraintLayout.setBackground(getDrawable(R.drawable.imagen_dia));
+            constraintLayout.setBackground(getDrawable(R.drawable.buenas_tardes_4));
             tvTimeMsg.setText("Buenos Días");
-        } else if (timOfDay >= 12 && timOfDay < 24) {
+        } else if (timOfDay >= 12 && timOfDay < 18) {
+            constraintLayout.setBackground(getDrawable(R.drawable.buenas_tardes_2));
+            tvTimeMsg.setText("Buenas Tardes");
+
+        }
+        else if(timOfDay >= 18 && timOfDay < 24){
             constraintLayout.setBackground(getDrawable(R.drawable.imagen_noche));
             tvTimeMsg.setText("Buenas Noches");
-
         }
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -104,6 +108,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.recuperar_pass).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(LoginActivity.this,ForgotActivity.class));
+
+            }
+        });
 
 
     }
@@ -183,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                     }
                     else{
-                        Toast.makeText(LoginActivity.this,"No se puedo inciar sesion pe!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this,"No se puedo iniciar sesion pe!",Toast.LENGTH_SHORT).show();
 
                     }
 

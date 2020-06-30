@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/buenas_tardes_4"
+    tools:context=".LoginActivity"
+    android:id="@+id/container"
+    >
+
+
+    <TextView
+        android:id="@+id/tv_time_msg"
+        android:layout_width="331dp"
+        android:layout_height="135dp"
+        android:layout_marginTop="132dp"
+        android:fontFamily="@font/kalam_bold"
+        android:text="Coloque su correo:"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/for_correo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:ems="10"
+        android:fontFamily="@font/contrail_one"
+        android:hint="Correo Gilat"
+        android:inputType="textPersonName"
+        android:textColor="#FFFFFF"
+
+        android:textColorHint="#FBFBFB"
+        android:textColorLink="#EFEFEF"
+        app:layout_constraintBottom_toTopOf="@+id/enviar_pass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.531"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_time_msg"
+        app:layout_constraintVertical_bias="0.09" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="48dp"
+        android:layout_height="39dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/ic_mail"
+        app:layout_constraintBottom_toBottomOf="@+id/for_correo"
+        app:layout_constraintEnd_toStartOf="@+id/for_correo"
+        app:layout_constraintTop_toTopOf="@+id/for_correo"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/enviar_pass"
+        android:layout_width="176dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="196dp"
+        android:background="@drawable/bg_button_white"
+        android:fontFamily="@font/contrail_one"
+        android:text="Enviar contraseña"
+
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/in_correo"
+        app:layout_constraintVertical_bias="0.75" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,18 @@
 package com.gilat.proyectogilat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,10 +42,34 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     DatabaseReference mDatabase;
 
+    //VALORES BACKGROUND CAMBIA
+    ConstraintLayout constraintLayout;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        //--------------------------------------------------------------------------------------------------------------------------
+        //BACKGROUND CAMBIA POR HORARIO
+        constraintLayout = findViewById(R.id.container);
+        Calendar c = Calendar.getInstance();
+        int timOfDay = c.get(Calendar.HOUR_OF_DAY);
+        if (timOfDay >= 0 && timOfDay < 12) {
+            constraintLayout.setBackground(getDrawable(R.drawable.buenas_tardes_4));
+        } else if (timOfDay >= 12 && timOfDay < 18) {
+            constraintLayout.setBackground(getDrawable(R.drawable.buenas_tardes_2));
+
+        }
+        else if(timOfDay >= 18 && timOfDay < 24){
+            constraintLayout.setBackground(getDrawable(R.drawable.imagen_noche));
+        }
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//--------------------------------------------------------------------------------------------------------------------------
+
+
+
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -62,7 +92,13 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                     if (pass.length() >= 6) {
-                        registeruser();
+                        if (pass.equals(re_pass)) {
+                            registeruser();
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "Ambas contraseñas deben coincidar!!", Toast.LENGTH_SHORT).show();
+
+                        }
+
                     } else {
 
                         Toast.makeText(RegisterActivity.this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
@@ -103,7 +139,7 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task2) {
                             if (task2.isSuccessful()) {
 
-                                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                                 finish();
                             } else {
 
@@ -118,6 +154,11 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+    public void volver(View v){
+        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+        finish();
 
     }
 

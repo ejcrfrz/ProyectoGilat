@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:color="#CACFE8"
+    tools:targetApi="lollipop">
+    <item android:id="@android:id/background">
+<shape
     android:shape="rectangle">
 
     <stroke  android:color="#AFAFAF"
@@ -9,3 +14,6 @@
     <corners android:radius="15dp" />
 
 </shape>
+    </item>
+
+</ripple>
