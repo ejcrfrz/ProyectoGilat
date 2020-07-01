@@ -40,7 +40,7 @@ public class ForgotActivity extends AppCompatActivity {
         if (timOfDay >= 0 && timOfDay < 12) {
             constraintLayout.setBackground(getDrawable(R.drawable.buenas_tardes_4));
         } else if (timOfDay >= 12 && timOfDay < 18) {
-            constraintLayout.setBackground(getDrawable(R.drawable.buenas_tardes_2));
+            constraintLayout.setBackground(getDrawable(R.drawable.buenas_tardes_200));
 
         }
         else if(timOfDay >= 18 && timOfDay < 24){

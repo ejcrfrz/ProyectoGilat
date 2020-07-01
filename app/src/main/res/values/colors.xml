@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#494848</color>
-    <color name="colorPrimaryDark">#494848</color>
-    <color name="colorAccent">#494848</color>
-    <color name="Buscador">#494848</color>
+    <color name="colorPrimary">#2c2c2c</color>
+    <color name="colorPrimaryDark">#2c2c2c</color>
+    <color name="colorAccent">#2c2c2c</color>
+    <color name="Buscador">#EDEDED</color>
     <color name="back">#494848</color>
     <color name="white">#8F8F8B</color>
 </resources>

@@ -63,54 +63,80 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.473" />
 
-            <EditText
+            <android.widget.SearchView
                 android:id="@+id/buscador"
-                android:layout_width="219dp"
-                android:layout_height="33dp"
-                android:layout_marginEnd="52dp"
+                android:layout_width="255dp"
+                android:layout_height="41dp"
                 android:layout_weight="1"
                 android:background="@color/back"
-                android:hint="@string/Buscador"
-                android:imeOptions="actionSearch"
+                android:iconifiedByDefault="false"
+                android:searchIcon="@null"
+                android:searchHintIcon="@null"
                 android:importantForAutofill="no"
-                android:inputType="text"
+
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
+                android:queryHint="Buscar.."
                 android:textColor="@color/Buscador"
+                android:editTextColor="@color/Buscador"
+                android:textColorHint="@color/Buscador"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.394"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.571" />
+                app:layout_constraintVertical_bias="0.516" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/button_dialog"
                 android:layout_width="35dp"
                 android:layout_height="34dp"
                 android:background="@drawable/bg_button_sesion"
                 android:onClick="showDialog"
+                android:src="@drawable/ic_ayuda"
                 app:layout_constraintBottom_toBottomOf="@+id/buscador"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.807"
                 app:layout_constraintStart_toEndOf="@+id/buscador"
                 app:layout_constraintTop_toTopOf="@+id/buscador"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="0.428" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="170dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="26dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/layout_bg_list2"
+            >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="170dp"
+            android:layout_marginTop="0dp"
             android:layout_marginBottom="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <Button
             android:id="@+id/button2"
+            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -120,7 +146,6 @@
             android:layout_marginTop="108dp"
             android:layout_marginEnd="45dp"
             android:layout_marginRight="16dp"
-            android:onClick="Agregar"
             android:text="generar"
             app:layout_constraintEnd_toEndOf="parent" />
     </RelativeLayout>

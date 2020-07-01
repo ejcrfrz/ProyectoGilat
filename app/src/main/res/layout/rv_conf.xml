@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="85dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginTop="0dp"
+    android:layout_marginRight="0dp"
     android:background="@drawable/layout_bg_list"
-    android:layout_marginTop="20dp"
-    android:layout_marginLeft="30dp"
-    android:layout_marginRight="30dp"
-
+    app:itemIconTint="#8F8F8B"
     >
+
+    <TextView
+        android:id="@+id/letter"
+        android:layout_width="45dp"
+        android:layout_height="47dp"
+
+        android:fontFamily="@font/andada"
+        android:gravity="center"
+        android:text="G"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageButtonInfo"
+        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.421" />
 
     <TextView
         android:id="@+id/nombre_incidencia"
@@ -23,33 +39,80 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.242" />
+        app:layout_constraintVertical_bias="0.568" />
 
-    <Button
+    <TextView
         android:id="@+id/buttonInfo"
-        android:layout_width="82dp"
-        android:layout_height="35dp"
+        android:layout_width="38dp"
+        android:layout_height="17dp"
+        android:background="#494848"
         android:fontFamily="@font/basic"
-        android:text="Detalles"
+        android:gravity="center"
+        android:text="Info"
+        android:textColor="#FFFFFF"
+        android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.773"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.769" />
+        app:layout_constraintVertical_bias="0.779" />
 
     <TextView
         android:id="@+id/flag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="14dp"
         android:text="TextView"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonInfo"
+        app:layout_constraintHorizontal_bias="0.93"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombre_incidencia" />
+        app:layout_constraintTop_toBottomOf="@+id/nombre_incidencia"
+        app:layout_constraintVertical_bias="0.538" />
+
+    <ImageButton
+        android:id="@+id/imageButtonInfo"
+        android:layout_width="38dp"
+        android:layout_height="28dp"
+        android:layout_marginBottom="4dp"
+        android:background="@null"
+        android:src="@drawable/ic_info4"
+        app:layout_constraintBottom_toTopOf="@+id/buttonInfo"
+        app:layout_constraintEnd_toEndOf="@+id/buttonInfo"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/buttonInfo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/basic"
+        android:visibility="invisible"
+        android:text="Nombre Antena:"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/nombre_incidencia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.29"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.294" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+
+        android:background="#636363"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.959" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

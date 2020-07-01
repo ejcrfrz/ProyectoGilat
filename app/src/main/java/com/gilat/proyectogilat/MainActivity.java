@@ -22,7 +22,10 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.SpannableString;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -35,6 +38,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.gilat.proyectogilat.Entidades.ConfAntena;
@@ -81,7 +86,9 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     //VALORES BUSCADOR
-    TextView search;
+    SearchView search;
+    ListaConfAntenaAdapter listaConfAntenaAdapter;
+    List<ConfAntena> lista = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,8 +130,8 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         //----------------------------------------------------------------------------------------------------------------------
-        EditText et = (EditText) findViewById(R.id.buscador);
-        et.setHintTextColor(Color.GRAY);
+        SearchView et = (SearchView) findViewById(R.id.buscador);
+        //et.setHintTextColor(Color.GRAY);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view1);
@@ -160,21 +167,42 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        lista();
 
-        search = findViewById(R.id.buscador);
-        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+        readData(new MyCallback() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    performSearch();
-                    return true;
-                }
+            public void onCallback(List<ConfAntena> list) {
+                Log.d("TAG", String.valueOf(list.size()));
+
+                listaConfAntenaAdapter = new ListaConfAntenaAdapter(list,MainActivity.this);
+                RecyclerView recyclerView = findViewById(R.id.recyclerView);
+                recyclerView.setAdapter(listaConfAntenaAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+            }
+        });
+        Log.d("TAG1", String.valueOf(lista.size()));
+
+
+        //---------------------------------------------------------------------------------------------
+        search = findViewById(R.id.buscador);
+
+        //ImageView searchViewIcon = (ImageView)search.findViewById(androidx.appcompat.R.id.search_mag_icon);
+        //searchViewIcon.setVisibility(View.GONE);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                listaConfAntenaAdapter.getFilter().filter(newText);
                 return false;
             }
         });
-
-
+        //---------------------------------------------------------------------------------------------
     }
 
     public void lista() {
@@ -183,23 +211,19 @@ public class MainActivity extends AppCompatActivity {
         database.getReference().child("ConfAntena").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<ConfAntena> lista_1 = new ArrayList<>();
+                //List<ConfAntena> lista = new ArrayList<>();
+
                for (DataSnapshot child : dataSnapshot.getChildren()) {
                     ConfAntena c1 = child.getValue(ConfAntena.class);
 
-                    lista_1.add(c1);
+                   lista.add(c1);
                     Log.d("infoApp", c1.getNombre());
                     Log.d("infoApp", c1.getFrecuencia());
                     Log.d("infoApp", c1.getPolarizacion());
                 }
                 //String size = String.valueOf(lista.length);
                 //Log.d("size", size);
-                ConfAntena[] lista = lista_1.toArray(new ConfAntena[0]);
 
-                ListaConfAntenaAdapter listaConfAntenaAdapter = new ListaConfAntenaAdapter(lista,MainActivity.this);
-                RecyclerView recyclerView = findViewById(R.id.recyclerView);
-                recyclerView.setAdapter(listaConfAntenaAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
 
 
@@ -212,6 +236,39 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    public interface MyCallback {
+        void onCallback(List<ConfAntena> list);
+    }
+
+    private void readData(final MyCallback myCallback){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database.getReference().child("ConfAntena").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //List<ConfAntena> lista = new ArrayList<>();
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    ConfAntena c1 = child.getValue(ConfAntena.class);
+
+                    lista.add(c1);
+
+                }
+                //String size = String.valueOf(lista.length);
+                //Log.d("size", size);
+                myCallback.onCallback(lista);
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     public void Sitio(View view) {
 

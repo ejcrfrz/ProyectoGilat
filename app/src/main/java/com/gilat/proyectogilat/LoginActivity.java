@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             constraintLayout.setBackground(getDrawable(R.drawable.buenas_tardes_4));
             tvTimeMsg.setText("Buenos Días");
         } else if (timOfDay >= 12 && timOfDay < 18) {
-            constraintLayout.setBackground(getDrawable(R.drawable.buenas_tardes_2));
+            constraintLayout.setBackground(getDrawable(R.drawable.buenas_tardes_200));
             tvTimeMsg.setText("Buenas Tardes");
 
         }

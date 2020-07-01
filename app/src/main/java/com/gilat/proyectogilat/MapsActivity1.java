@@ -4,8 +4,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,20 +18,45 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity1 extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-
+    String nombre_incidencia = "";
+    String flag = "";
+    String pola="";
+    String frecuencia ="";
+    double latitud =0.0;
+    double longitud=0.0;
+    String potx="";
+    String potrx="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps1);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            nombre_incidencia = extras.getString("nombre_incidencia");
+            flag = extras.getString("flag");
+            pola = extras.getString("pola");
+            frecuencia = extras.getString("frecuencia");
+            latitud = extras.getDouble("latitud");
+            longitud = extras.getDouble("longitud");
+            potx = extras.getString("potx");
+            potrx = extras.getString("potrx");
+
+        }
+
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
 
 
     }
@@ -45,16 +74,29 @@ public class MapsActivity1 extends FragmentActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        LatLng ubicacion1 = new LatLng(-11.910905985970672, -77.05563256573937);
-        LatLng ubicacion2 = new LatLng(-11.915172275575415, -77.04810521337313);
-        LatLng ubicacion3 = new LatLng(-11.901004177887586, -77.04014009802113);
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            boolean success = googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.mapstyle));
+
+            if (!success) {
+               // Log.e(TAG, "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            //Log.e(TAG, "Can't find style. Error: ", e);
+        }
 
 
-        mMap.addMarker(new MarkerOptions().position(ubicacion1).title("Ubicacion 1").snippet("Grifo Los Incas").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-        mMap.addMarker(new MarkerOptions().position(ubicacion2).title("Ubicacion 2"));
-        mMap.addMarker(new MarkerOptions().position(ubicacion3).title("Ubicacion 3"));
+
+
+        LatLng ubicacion1 = new LatLng(latitud,longitud);
+        String la = String.valueOf(latitud);
+        String lo = String.valueOf(longitud);
+        String var = la +" , "+lo;
+        String ubi = nombre_incidencia;
+        mMap.addMarker(new MarkerOptions().position(ubicacion1).title(ubi).snippet(var).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion1, 13));
@@ -74,6 +116,24 @@ public class MapsActivity1 extends FragmentActivity implements OnMapReadyCallbac
         mMap.setMyLocationEnabled(true);
 
 
+
+
+    }
+
+    public void volver(View view){
+        Intent intent1 =new Intent(MapsActivity1.this,InfoActivity.class);
+        intent1.putExtra("flag",flag);
+        intent1.putExtra("nombre_incidencia",nombre_incidencia);
+        intent1.putExtra("pola",pola);
+        intent1.putExtra("frecuencia",frecuencia);
+        intent1.putExtra("latitud",latitud);
+        intent1.putExtra("longitud",longitud);
+        intent1.putExtra("potx",potx);
+        intent1.putExtra("potrx",potrx);
+
+        startActivity(intent1);
+
+        finish();
 
 
     }
