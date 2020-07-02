@@ -188,11 +188,21 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
 
-                        Intent intent1 =new Intent(LoginActivity.this,MainActivity.class);
-                        intent1.putExtra("flag","SI");
-                        startActivity(intent1);
+                        if(email.equals("ejcrfrz@gmail.com") && password.equals("1234567")){
+                            Intent intent1 =new Intent(LoginActivity.this,AdmiMainActivity.class);
+                            intent1.putExtra("flag","SI");
+                            startActivity(intent1);
 
-                        finish();
+
+                        }
+                        else{
+                            Intent intent1 =new Intent(LoginActivity.this,MainActivity.class);
+                            intent1.putExtra("flag","SI");
+                            startActivity(intent1);
+
+                        }
+
+
                     }
                     else{
                         Toast.makeText(LoginActivity.this,"No se puedo iniciar sesion pe!",Toast.LENGTH_SHORT).show();

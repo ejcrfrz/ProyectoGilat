@@ -2,7 +2,6 @@ package com.gilat.proyectogilat;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
@@ -21,7 +20,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class InfoActivity extends FragmentActivity implements OnMapReadyCallback {
+public class AdmInfoActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     String nombre_incidencia = "";
     String flag = "";
@@ -34,7 +33,7 @@ public class InfoActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_info);
+        setContentView(R.layout.activity_adm_info);
         //getSupportActionBar().hide();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -76,13 +75,14 @@ public class InfoActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-
     }
+
+
 
 
     public void Volver(View view){
 
-        Intent intent1 =new Intent(InfoActivity.this,MainActivity.class);
+        Intent intent1 =new Intent(AdmInfoActivity.this,AdmiMainActivity.class);
         intent1.putExtra("flag",flag);
         startActivity(intent1);
 
@@ -92,7 +92,7 @@ public class InfoActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void Vermapa(View view){
 
-        Intent intent1 =new Intent(InfoActivity.this,MapsActivity1.class);
+        Intent intent1 =new Intent(AdmInfoActivity.this,AdmMapsActivity1.class);
         intent1.putExtra("flag",flag);
         intent1.putExtra("nombre_incidencia",nombre_incidencia);
         intent1.putExtra("pola",pola);
@@ -152,5 +152,4 @@ public class InfoActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
-
 }

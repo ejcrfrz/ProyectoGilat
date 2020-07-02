@@ -30,8 +30,8 @@
 
     <TextView
         android:id="@+id/nombre_incidencia"
-        android:layout_width="192dp"
-        android:layout_height="34dp"
+        android:layout_width="162dp"
+        android:layout_height="36dp"
         android:fontFamily="@font/basic"
         android:text="TextView"
         android:textAlignment="inherit"
@@ -45,48 +45,29 @@
         app:layout_constraintVertical_bias="0.568" />
 
     <TextView
-        android:id="@+id/buttonInfo"
-        android:layout_width="38dp"
-        android:layout_height="17dp"
-        android:background="#494848"
-        android:fontFamily="@font/basic"
-        android:gravity="center"
-        android:text="Info"
-        android:textColor="#FFFFFF"
-        android:textSize="11sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.779" />
-
-    <TextView
         android:id="@+id/flag"
         android:layout_width="24dp"
         android:layout_height="14dp"
         android:text="TextView"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonInfo"
-        app:layout_constraintHorizontal_bias="0.93"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nombre_incidencia"
         app:layout_constraintVertical_bias="0.538" />
 
     <ImageButton
         android:id="@+id/imageButtonInfo"
-        android:layout_width="38dp"
-        android:layout_height="28dp"
-        android:layout_marginBottom="4dp"
+        android:layout_width="27dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="50dp"
         android:background="@null"
         android:src="@drawable/ic_info4"
-        app:layout_constraintBottom_toTopOf="@+id/buttonInfo"
-        app:layout_constraintEnd_toEndOf="@+id/buttonInfo"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/buttonInfo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonEditar"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.472" />
 
     <TextView
         android:id="@+id/textView5"
@@ -114,5 +95,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.959" />
+
+    <ImageButton
+        android:id="@+id/imageButtonEditar"
+        android:layout_width="24dp"
+        android:layout_height="31dp"
+        android:layout_marginEnd="25dp"
+        android:background="@null"
+        android:src="@drawable/ic_lapiz"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageButtonInfo"
+        app:layout_constraintHorizontal_bias="0.941"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonBorrar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.481" />
+
+    <ImageButton
+        android:id="@+id/imageButtonBorrar"
+        android:layout_width="25dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="25dp"
+        android:background="@null"
+        android:src="@drawable/ic_borrar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageButtonEditar"
+        app:layout_constraintStart_toEndOf="@+id/nombre_incidencia"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.481" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

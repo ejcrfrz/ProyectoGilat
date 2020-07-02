@@ -5,47 +5,31 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.SpannableString;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.text.style.TextAppearanceSpan;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.gilat.proyectogilat.Entidades.ConfAntena;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.GoogleSignatureVerifier;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
@@ -56,12 +40,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class AdmiMainActivity extends AppCompatActivity {
     //RECIBE DEL LOGIN
     String flag = "NO";
     GoogleSignInAccount signInAccount;
@@ -87,14 +69,14 @@ public class MainActivity extends AppCompatActivity {
 
     //VALORES BUSCADOR
     SearchView search;
-    ListaConfAntenaAdapter listaConfAntenaAdapter;
+    AdmiConfAntenaAdapter listaConfAntenaAdapter;
     List<ConfAntena> lista = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_admi_main);
+
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Intent intent2 = getIntent();
         flag = intent2.getStringExtra("flag");
 
@@ -122,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.nav_mapa:
-                        Intent i = new Intent(MainActivity.this, MapaActivity.class);
+                        Intent i = new Intent(AdmiMainActivity.this, MapaActivity.class);
+                        i.putExtra("flag",flag);
                         startActivity(i);
                         break;
                     case R.id.nav_lista:
@@ -142,15 +125,15 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        readData(new MyCallback() {
+        readData(new MainActivity.MyCallback() {
             @Override
             public void onCallback(List<ConfAntena> list) {
                 Log.d("TAG", String.valueOf(list.size()));
 
-                listaConfAntenaAdapter = new ListaConfAntenaAdapter(list,MainActivity.this);
+                listaConfAntenaAdapter = new AdmiConfAntenaAdapter(list,AdmiMainActivity.this);
                 RecyclerView recyclerView = findViewById(R.id.recyclerView);
                 recyclerView.setAdapter(listaConfAntenaAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                recyclerView.setLayoutManager(new LinearLayoutManager(AdmiMainActivity.this));
 
             }
         });
@@ -160,8 +143,7 @@ public class MainActivity extends AppCompatActivity {
         //---------------------------------------------------------------------------------------------
         search = findViewById(R.id.buscador);
 
-        //ImageView searchViewIcon = (ImageView)search.findViewById(androidx.appcompat.R.id.search_mag_icon);
-        //searchViewIcon.setVisibility(View.GONE);
+
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -176,7 +158,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //---------------------------------------------------------------------------------------------
+
+
+
     }
+
 
     public void lista() {
 
@@ -186,10 +172,10 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //List<ConfAntena> lista = new ArrayList<>();
 
-               for (DataSnapshot child : dataSnapshot.getChildren()) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
                     ConfAntena c1 = child.getValue(ConfAntena.class);
 
-                   lista.add(c1);
+                    lista.add(c1);
                     Log.d("infoApp", c1.getNombre());
                     Log.d("infoApp", c1.getFrecuencia());
                     Log.d("infoApp", c1.getPolarizacion());
@@ -214,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
         void onCallback(List<ConfAntena> list);
     }
 
-    private void readData(final MyCallback myCallback){
+    private void readData(final MainActivity.MyCallback myCallback){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         database.getReference().child("ConfAntena").addValueEventListener(new ValueEventListener() {
             @Override
@@ -245,66 +231,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void Sitio(View view) {
 
-        Intent i = new Intent(MainActivity.this, MapsActivity1.class);
+        Intent i = new Intent(AdmiMainActivity.this, MapsActivity1.class);
         startActivity(i);
 
     }
 
-    public void Agregar(View view) {
-        ConfAntena c = new ConfAntena();
-        c.setId("asd");
-        c.setFrecuencia("3500");
-        c.setNombre("ANT1");
-        c.setPolarizacion("Lineal");
-        c.setPotenciaRx("20");
-        c.setPotenciaRt("18");
-        c.setLatitud(-11.910905985970672);
-        c.setLongitud(-77.05563256573937);
-        c.setFlag(flag);
 
-        ConfAntena c1 = new ConfAntena();
-        c1.setId("dsa");
-        c1.setFrecuencia("3700");
-        c1.setNombre("ANT2");
-        c1.setPolarizacion("Lineal");
-        c1.setPotenciaRx("29");
-        c1.setPotenciaRt("18");
-        c1.setLatitud(-11.915172275575415);
-        c1.setLongitud(-77.05563256573937);
-        c1.setFlag(flag);
-
-        ConfAntena c2 = new ConfAntena();
-        c2.setId("qwe");
-        c2.setFrecuencia("3900");
-        c2.setNombre("ANT3");
-        c2.setPolarizacion("Circular");
-        c2.setPotenciaRx("29");
-        c2.setPotenciaRt("18");
-        c2.setLatitud(-11.901004177887586);
-        c2.setLongitud(-77.04014009802113);
-        c2.setFlag(flag);
-
-        DatabaseReference dbRef = mDatabase.child("ConfAntena").push();
-        String id = dbRef.getKey();
-        Log.d("infoAppKey", id);
-
-
-        dbRef.setValue(c1)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("infoApp", "guardado exitosamente");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e("infoApp", "onFailure", e.getCause());
-                    }
-                });
-
-
-    }
 
     public void showDialog(View view) {
 
@@ -337,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mAuth.signOut();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                startActivity(new Intent(AdmiMainActivity.this, LoginActivity.class));
                 finish();
             }
         });
@@ -412,6 +344,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+    public void agregar(View view){
+        Intent intent3 =new Intent(AdmiMainActivity.this,AgregarActivity.class);
+
+        startActivity(intent3);
+
+
+    }
 
 
 }
