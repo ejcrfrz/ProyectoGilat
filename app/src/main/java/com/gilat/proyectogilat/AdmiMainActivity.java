@@ -70,7 +70,7 @@ public class AdmiMainActivity extends AppCompatActivity {
     //VALORES BUSCADOR
     SearchView search;
     AdmiConfAntenaAdapter listaConfAntenaAdapter;
-    List<ConfAntena> lista = new ArrayList<>();
+    //List<ConfAntena> lista = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +114,7 @@ public class AdmiMainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
+        navigationView.setCheckedItem(R.id.nav_lista);
         //----------------------------------------------------------------------------------------------------------------------
         if (flag.equals("SI")) {
             getUserinfo();
@@ -129,15 +129,16 @@ public class AdmiMainActivity extends AppCompatActivity {
             @Override
             public void onCallback(List<ConfAntena> list) {
                 Log.d("TAG", String.valueOf(list.size()));
-
-                listaConfAntenaAdapter = new AdmiConfAntenaAdapter(list,AdmiMainActivity.this);
+                List<ConfAntena> listanueva = new ArrayList<>();
+                listanueva = list;
+                listaConfAntenaAdapter = new AdmiConfAntenaAdapter(listanueva,AdmiMainActivity.this);
                 RecyclerView recyclerView = findViewById(R.id.recyclerView);
                 recyclerView.setAdapter(listaConfAntenaAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(AdmiMainActivity.this));
 
             }
         });
-        Log.d("TAG1", String.valueOf(lista.size()));
+       // Log.d("TAG1", String.valueOf(lista.size()));
 
 
         //---------------------------------------------------------------------------------------------
@@ -164,38 +165,6 @@ public class AdmiMainActivity extends AppCompatActivity {
     }
 
 
-    public void lista() {
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        database.getReference().child("ConfAntena").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //List<ConfAntena> lista = new ArrayList<>();
-
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    ConfAntena c1 = child.getValue(ConfAntena.class);
-
-                    lista.add(c1);
-                    Log.d("infoApp", c1.getNombre());
-                    Log.d("infoApp", c1.getFrecuencia());
-                    Log.d("infoApp", c1.getPolarizacion());
-                }
-                //String size = String.valueOf(lista.length);
-                //Log.d("size", size);
-
-
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
     public interface MyCallback {
         void onCallback(List<ConfAntena> list);
     }
@@ -205,7 +174,7 @@ public class AdmiMainActivity extends AppCompatActivity {
         database.getReference().child("ConfAntena").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //List<ConfAntena> lista = new ArrayList<>();
+                List<ConfAntena> lista = new ArrayList<>();
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     ConfAntena c1 = child.getValue(ConfAntena.class);

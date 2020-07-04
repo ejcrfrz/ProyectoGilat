@@ -17,6 +17,7 @@
         android:layout_gravity="start"
         android:background="#2c2c2c"
         android:theme="@style/NavigationView"
+        app:itemBackground="@drawable/nav_view_item_background"
         app:headerLayout="@layout/header"
         app:itemIconTint="#8F8F8B"
         app:itemTextColor="#8F8F8B"

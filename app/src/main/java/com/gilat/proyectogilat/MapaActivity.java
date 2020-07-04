@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +18,8 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.gilat.proyectogilat.Entidades.ConfAntena;
@@ -48,7 +51,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
     List<ConfAntena> lista = new ArrayList<>();
     NavigationView navigationView;
     Toolbar toolbar;
-    //ConstraintLayout drawerLayout;
+    DrawerLayout drawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,11 +64,40 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
 
-        //drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view1);
         toolbar = findViewById(R.id.toolbar1);
 
+
         navigationView.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        //navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.nav_mapa:
+
+                        break;
+                    case R.id.nav_lista:
+                        Intent i = new Intent(MapaActivity.this, AdmiMainActivity.class);
+                        i.putExtra("flag",flag);
+                        startActivity(i);
+
+                        break;
+                }
+                return true;
+            }
+        });
+        navigationView.setCheckedItem(R.id.nav_mapa);
+
+        //----------------------------------------------------------------------------------------------------------------------
+
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -74,6 +106,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+
 
     /**
      * Manipulates the map once available.
