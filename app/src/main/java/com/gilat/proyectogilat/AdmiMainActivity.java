@@ -205,6 +205,10 @@ public class AdmiMainActivity extends AppCompatActivity {
 
                         listaConfAntenaAdapter.getFilter().filter("Ayacucho");
 
+                    }else if (position == 4) {
+
+                        listaConfAntenaAdapter.getFilter().filter("Apurimac");
+
                     }
 
 

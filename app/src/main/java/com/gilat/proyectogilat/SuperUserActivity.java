@@ -38,8 +38,8 @@ public class SuperUserActivity extends AppCompatActivity {
     //VALORES FIREBASE
     FirebaseAuth mAuth;
     DatabaseReference mDatabase;
-    String email_db;
-    String pass_db;
+    String email_db ="";
+    String pass_db ="";
     private final int MY_PERMISSIONS = 1;
 
     //VALORES DIALOG
@@ -120,10 +120,10 @@ public class SuperUserActivity extends AppCompatActivity {
         });
         navigationView.setCheckedItem(R.id.nav_root);
         getUserinfo();
-        readData(new MyCallback() {
+        readData(new MyCallback1() {
             @Override
-            public void onCallback(List<Usuario> list) {
-                Log.d("TAG", String.valueOf(list.size()));
+            public void onCallback1(List<Usuario> list) {
+               // Log.d("TAG", String.valueOf(list.size()));
                 List<Usuario> listanueva = new ArrayList<>();
                 listanueva = list;
                 listaConfAntenaAdapter1 = new ListUserAdapter(listanueva, SuperUserActivity.this);
@@ -136,11 +136,11 @@ public class SuperUserActivity extends AppCompatActivity {
 
     }
 
-    public interface MyCallback {
-        void onCallback(List<Usuario> list);
+    public interface MyCallback1 {
+        void onCallback1(List<Usuario> list);
     }
 
-    private void readData(final MyCallback myCallback) {
+    private void readData(final MyCallback1 myCallback1) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         database.getReference().child("Users").addValueEventListener(new ValueEventListener() {
             @Override
@@ -160,7 +160,7 @@ public class SuperUserActivity extends AppCompatActivity {
 
                 //String size = String.valueOf(lista.length);
                 //Log.d("size", size);
-                myCallback.onCallback(lista);
+                myCallback1.onCallback1(lista);
 
 
             }

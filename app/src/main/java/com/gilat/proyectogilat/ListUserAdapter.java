@@ -82,21 +82,29 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ConfsU
 
             if(view.getId() == R.id.switch1){
                 if(aSwitch.isChecked()){
-
+/*
                     Intent intent1 = new Intent(context, CambioActivity.class);
                     intent1.putExtra("flag", "SI");
                     intent1.putExtra("id",iduser);
                     intent1.putExtra("re","SI");
                     context.startActivity(intent1);
+*/
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+
+                    databaseReference.child(iduser).child("admi").setValue("SI");
 
                 }
                 else{
-
+/*
                     Intent intent2 = new Intent(context, CambioActivity.class);
                     intent2.putExtra("flag", "SI");
                     intent2.putExtra("id",iduser);
                     intent2.putExtra("re","NO");
                     context.startActivity(intent2);
+*/
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+
+                    databaseReference.child(iduser).child("admi").setValue("NO");
                 }
 
             }

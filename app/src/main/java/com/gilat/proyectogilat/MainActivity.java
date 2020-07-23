@@ -213,7 +213,12 @@ public class MainActivity extends AppCompatActivity {
 
                     listaConfAntenaAdapter.getFilter().filter("Ayacucho");
 
+                }else if (position == 4) {
+
+                    listaConfAntenaAdapter.getFilter().filter("Apurimac");
+
                 }
+
 
 
             }
