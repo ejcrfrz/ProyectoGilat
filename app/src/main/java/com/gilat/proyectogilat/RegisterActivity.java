@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -95,13 +96,13 @@ public class RegisterActivity extends AppCompatActivity {
                         if (pass.equals(re_pass)) {
                             registeruser();
                         } else {
-                            Toast.makeText(RegisterActivity.this, "Ambas contraseñas deben coincidar!!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Ambas contraseñas deben coincidar!!", Toast.LENGTH_LONG).show();
 
                         }
 
                     } else {
 
-                        Toast.makeText(RegisterActivity.this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_LONG).show();
 
                     }
 
@@ -131,14 +132,16 @@ public class RegisterActivity extends AppCompatActivity {
                     map.put("name", name);
                     map.put("email", email);
                     map.put("pass", pass);
-
+                    map.put("admi","NO");
+                    map.put("iduser",mAuth.getCurrentUser().getUid());
 
                     String id = mAuth.getCurrentUser().getUid();
                     mDatabase.child("Users").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task2) {
                             if (task2.isSuccessful()) {
-
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                user.sendEmailVerification();
                                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                                 finish();
                             } else {

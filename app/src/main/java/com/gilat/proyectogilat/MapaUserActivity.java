@@ -4,31 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.gilat.proyectogilat.Entidades.ConfAntena;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -47,9 +34,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-public class MapaActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapaUserActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     String flag = "";
     String la;
@@ -60,18 +46,11 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
     List<ConfAntena> lista = new ArrayList<>();
     NavigationView navigationView;
     Toolbar toolbar;
-    LocationManager locationManager;
     DrawerLayout drawerLayout;
-    String provider;
-    Criteria mCriteria;
-    private static final long MIN_TIME = 400;
-    private static final float MIN_DISTANCE = 1000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mapa);
-
+        setContentView(R.layout.activity_mapa_user);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             flag = extras.getString("flag");
@@ -99,17 +78,10 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
 
                         break;
                     case R.id.nav_lista:
-                        Intent i = new Intent(MapaActivity.this, AdmiMainActivity.class);
-                        i.putExtra("flag", flag);
+                        Intent i = new Intent(MapaUserActivity.this, MainActivity.class);
+                        i.putExtra("flag",flag);
                         startActivity(i);
-                        finish();
 
-                        break;
-                    case R.id.nav_root:
-                        Intent i2 = new Intent(MapaActivity.this, SuperUserActivity.class);
-                        i2.putExtra("flag", flag);
-                        startActivity(i2);
-                        finish();
                         break;
                     case R.id.nav_face:
                         Intent inte = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/"));
@@ -128,13 +100,17 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
         //----------------------------------------------------------------------------------------------------------------------
 
 
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
 
+
+
     }
+
 
 
     /**
@@ -150,7 +126,6 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
@@ -164,6 +139,8 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (Resources.NotFoundException e) {
             //Log.e(TAG, "Can't find style. Error: ", e);
         }
+
+
 
 
         readData(new MainActivity.MyCallback() {
@@ -183,6 +160,10 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        LatLng ubicacion2 = new LatLng(-11.910905985970672, -77.05563256573937);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion2, 13));
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -195,10 +176,8 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
         mMap.setMyLocationEnabled(true);
-        LatLng ubicacion2 = new LatLng(-11.910905985970672, -77.05563256573937);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion2, 5));
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+
 
 
     }
@@ -207,8 +186,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
     public interface MyCallback {
         void onCallback(List<ConfAntena> list);
     }
-
-    private void readData(final MainActivity.MyCallback myCallback) {
+    private void readData(final MainActivity.MyCallback myCallback){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         database.getReference().child("ConfAntena").addValueEventListener(new ValueEventListener() {
             @Override
@@ -226,6 +204,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
                 myCallback.onCallback(lista);
 
 
+
             }
 
             @Override
@@ -234,6 +213,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+
 
 
 }

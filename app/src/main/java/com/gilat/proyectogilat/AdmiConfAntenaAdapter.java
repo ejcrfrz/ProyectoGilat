@@ -53,6 +53,11 @@ public class AdmiConfAntenaAdapter extends RecyclerView.Adapter<AdmiConfAntenaAd
                     if (item.getNombre().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
+                    if (item.getRegion().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+
+
                 }
             }
             FilterResults results = new FilterResults();
@@ -85,12 +90,13 @@ public class AdmiConfAntenaAdapter extends RecyclerView.Adapter<AdmiConfAntenaAd
         String potx;
         String potrx;
         String id;
-        //TextView descripcion;
-        //TextView ubicacion;
-        //TextView foto;
-        //TextView comentario;
-        //TextView idAccidente;
-        //buttons
+
+        String model;
+        String modul;
+        String ganancia;
+        String region;
+
+
 
         //Button buttonVerDetalle;
         //Button buttonHecho;
@@ -154,6 +160,12 @@ public class AdmiConfAntenaAdapter extends RecyclerView.Adapter<AdmiConfAntenaAd
                     intent2.putExtra("potrx", potrx);
                     intent2.putExtra("id", id);
 
+                    intent2.putExtra("model", model);
+                    intent2.putExtra("modul", modul);
+                    intent2.putExtra("ganancia", ganancia);
+                    intent2.putExtra("region", region);
+
+
                     context.startActivity(intent2);
                     break;
 
@@ -168,6 +180,13 @@ public class AdmiConfAntenaAdapter extends RecyclerView.Adapter<AdmiConfAntenaAd
                     intent1.putExtra("longitud", longitud);
                     intent1.putExtra("potx", potx);
                     intent1.putExtra("potrx", potrx);
+
+                    intent1.putExtra("model", model);
+                    intent1.putExtra("modul", modul);
+                    intent1.putExtra("ganancia", ganancia);
+                    intent1.putExtra("region", region);
+
+
 
                     context.startActivity(intent1);
                     break;
@@ -209,6 +228,11 @@ public class AdmiConfAntenaAdapter extends RecyclerView.Adapter<AdmiConfAntenaAd
         String getpot = incidencia.getPotenciaRt();
         String getpotrx = incidencia.getPotenciaRx();
         String getid = incidencia.getId();
+
+        String getmodel = incidencia.getModelAntena();
+        String getmodul = incidencia.getModulacion();
+        String getganancia = incidencia.getGanancia();
+        String getregion = incidencia.getRegion();
         /*
         String getestado = incidencia.getEstado();
         String getdescripcion = incidencia.getDescripcion();
@@ -254,6 +278,13 @@ public class AdmiConfAntenaAdapter extends RecyclerView.Adapter<AdmiConfAntenaAd
         holder.potx = getpot;
         holder.potrx = getpotrx;
         holder.id = getid;
+
+        holder.model= getmodel;
+        holder.modul = getmodul;
+        holder.ganancia = getganancia;
+        holder.region = getregion;
+
+
         /*
         holder.estado.setText(getestado);
         holder.descripcion.setText(getdescripcion);

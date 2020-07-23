@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +24,13 @@ public class EditarActivity extends AppCompatActivity {
     String potx="";
     String potrx="";
     String id="";
+
+    String model="";
+    String modul="";
+    String ganancia="";
+    String region="";
+    Spinner spinner;
+    String region_1="";
     DatabaseReference reference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +50,11 @@ public class EditarActivity extends AppCompatActivity {
             potx = extras.getString("potx");
             potrx = extras.getString("potrx");
             id = extras.getString("id");
+
+            model = extras.getString("model");
+            modul = extras.getString("modul");
+            region = extras.getString("region");
+            ganancia = extras.getString("ganancia");
         }
 
         EditText textViewverNombre = findViewById(R.id.verNombre);
@@ -63,7 +78,33 @@ public class EditarActivity extends AppCompatActivity {
         EditText editTextLongitud = findViewById(R.id.verLongitud);
         editTextLongitud.setText(String.valueOf(longitud));
 
+        EditText editTextModel = findViewById(R.id.verModel);
+        editTextModel.setText(model);
 
+        EditText editTextGana = findViewById(R.id.verGanancia);
+        editTextGana.setText(ganancia);
+
+        EditText editTextModul = findViewById(R.id.verModul);
+        editTextModul.setText(modul);
+
+        spinner = findViewById(R.id.verRegion);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.region_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(adapter.getPosition(region));
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                region_1 = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
@@ -100,6 +141,19 @@ public class EditarActivity extends AppCompatActivity {
         EditText editText_longitud = findViewById(R.id.verLongitud);
         String longitud_1 = editText_longitud.getText().toString();
 
+
+        EditText editText_model = findViewById(R.id.verModel);
+        String model_1 = editText_model.getText().toString();
+
+        EditText editText_modul = findViewById(R.id.verModul);
+        String modul_1 = editText_modul.getText().toString();
+
+        EditText editText_gana = findViewById(R.id.verGanancia);
+        String gana_1 = editText_gana.getText().toString();
+
+        String reg="wa";
+
+
         reference.child(id).child("nombre").setValue(nombre_1);
         reference.child(id).child("frecuencia").setValue(frec_1);
         reference.child(id).child("polarizacion").setValue(pola_1);
@@ -107,6 +161,14 @@ public class EditarActivity extends AppCompatActivity {
         reference.child(id).child("potenciaRx").setValue(potrx_1);
         reference.child(id).child("latitud").setValue(Double.parseDouble(latitud_1));
         reference.child(id).child("longitud").setValue(Double.parseDouble(longitud_1));
+
+        reference.child(id).child("modelAntena").setValue(model_1);
+        reference.child(id).child("modulacion").setValue(modul_1);
+        reference.child(id).child("ganancia").setValue(gana_1);
+
+        reference.child(id).child("region").setValue(region_1);
+
+
 
         Intent intent3 =new Intent(EditarActivity.this,AdmiMainActivity.class);
         intent3.putExtra("flag",flag);

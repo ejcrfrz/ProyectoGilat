@@ -30,6 +30,12 @@ public class AdmInfoActivity extends FragmentActivity implements OnMapReadyCallb
     double longitud=0.0;
     String potx="";
     String potrx="";
+
+    String model="";
+    String modul="";
+    String ganancia="";
+    String region="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +57,13 @@ public class AdmInfoActivity extends FragmentActivity implements OnMapReadyCallb
             potx = extras.getString("potx");
             potrx = extras.getString("potrx");
 
+            model = extras.getString("model");
+            modul = extras.getString("modul");
+            region = extras.getString("region");
+            ganancia = extras.getString("ganancia");
+
+
+
         }
 
         Log.d("valores", String.valueOf(latitud));
@@ -71,6 +84,17 @@ public class AdmInfoActivity extends FragmentActivity implements OnMapReadyCallb
         TextView textViewverPotrx = findViewById(R.id.verPotrx);
         textViewverPotrx.setText(potrx);
 
+        TextView textViewverModel = findViewById(R.id.verModel);
+        textViewverModel.setText(model);
+
+        TextView textViewverModul = findViewById(R.id.verModul);
+        textViewverModul.setText(modul);
+
+        TextView textViewverGana = findViewById(R.id.verGanancia);
+        textViewverGana.setText(ganancia);
+
+        TextView textViewverReg = findViewById(R.id.verRegion);
+        textViewverReg.setText(region);
 
 
 
@@ -101,6 +125,11 @@ public class AdmInfoActivity extends FragmentActivity implements OnMapReadyCallb
         intent1.putExtra("longitud",longitud);
         intent1.putExtra("potx",potx);
         intent1.putExtra("potrx",potrx);
+        intent1.putExtra("model", model);
+        intent1.putExtra("modul", modul);
+        intent1.putExtra("ganancia", ganancia);
+        intent1.putExtra("region", region);
+
 
         startActivity(intent1);
 

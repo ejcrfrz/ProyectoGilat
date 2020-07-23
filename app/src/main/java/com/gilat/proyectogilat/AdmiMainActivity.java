@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,9 +25,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gilat.proyectogilat.Entidades.ConfAntena;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -70,6 +76,7 @@ public class AdmiMainActivity extends AppCompatActivity {
     //VALORES BUSCADOR
     SearchView search;
     AdmiConfAntenaAdapter listaConfAntenaAdapter;
+
     //List<ConfAntena> lista = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,11 +112,27 @@ public class AdmiMainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.nav_mapa:
                         Intent i = new Intent(AdmiMainActivity.this, MapaActivity.class);
-                        i.putExtra("flag",flag);
+                        i.putExtra("flag", flag);
                         startActivity(i);
+                        finish();
+                        break;
+                    case R.id.nav_root:
+                        Intent i2 = new Intent(AdmiMainActivity.this, SuperUserActivity.class);
+                        i2.putExtra("flag", flag);
+                        startActivity(i2);
+
                         break;
                     case R.id.nav_lista:
                         break;
+                    case R.id.nav_face:
+                        Intent inte = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/"));
+                        startActivity(inte);
+                        break;
+                    case R.id.nav_twi:
+                        Intent inte2 = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.twitter.com/"));
+                        startActivity(inte2);
+                        break;
+
                 }
                 return true;
             }
@@ -123,22 +146,20 @@ public class AdmiMainActivity extends AppCompatActivity {
         }
 
 
-
-
         readData(new MainActivity.MyCallback() {
             @Override
             public void onCallback(List<ConfAntena> list) {
                 Log.d("TAG", String.valueOf(list.size()));
                 List<ConfAntena> listanueva = new ArrayList<>();
                 listanueva = list;
-                listaConfAntenaAdapter = new AdmiConfAntenaAdapter(listanueva,AdmiMainActivity.this);
+                listaConfAntenaAdapter = new AdmiConfAntenaAdapter(listanueva, AdmiMainActivity.this);
                 RecyclerView recyclerView = findViewById(R.id.recyclerView);
                 recyclerView.setAdapter(listaConfAntenaAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(AdmiMainActivity.this));
 
             }
         });
-       // Log.d("TAG1", String.valueOf(lista.size()));
+        // Log.d("TAG1", String.valueOf(lista.size()));
 
 
         //---------------------------------------------------------------------------------------------
@@ -159,7 +180,41 @@ public class AdmiMainActivity extends AppCompatActivity {
             }
         });
         //---------------------------------------------------------------------------------------------
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.planets_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if(position==0){
+
+                    }
+                    else if (position==1){
+
+                        String nada = "";
+                        listaConfAntenaAdapter.getFilter().filter(nada);
+                    }
+                    else if (position==2){
+
+                        listaConfAntenaAdapter.getFilter().filter("Huancavelica");
+                    }
+                    else if (position==3){
+
+                        listaConfAntenaAdapter.getFilter().filter("Ayacucho");
+
+                    }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
     }
@@ -169,7 +224,7 @@ public class AdmiMainActivity extends AppCompatActivity {
         void onCallback(List<ConfAntena> list);
     }
 
-    private void readData(final MainActivity.MyCallback myCallback){
+    private void readData(final MainActivity.MyCallback myCallback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         database.getReference().child("ConfAntena").addValueEventListener(new ValueEventListener() {
             @Override
@@ -187,7 +242,6 @@ public class AdmiMainActivity extends AppCompatActivity {
                 myCallback.onCallback(lista);
 
 
-
             }
 
             @Override
@@ -195,6 +249,8 @@ public class AdmiMainActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
 
@@ -206,23 +262,17 @@ public class AdmiMainActivity extends AppCompatActivity {
     }
 
 
-
     public void showDialog(View view) {
 
-        AlertDialog.Builder alert;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            alert = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-
-            alert = new AlertDialog.Builder(this);
-        }
+         AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(
+                AdmiMainActivity.this);
         LayoutInflater inflater = getLayoutInflater();
         view = inflater.inflate(R.layout.dialog_sesion, null);
         editText_name = view.findViewById(R.id.dialog_name);
         editText_email = view.findViewById(R.id.dialog_email);
         button_logout = view.findViewById(R.id.dialog_logout);
         button_close = view.findViewById(R.id.dialog_close);
-
+        final AlertDialog alert = alertDialog2.create();
         if (flag.equals("SI")) {
             editText_name.setText(Name_DB);
             editText_email.setText(Email_DB);
@@ -230,29 +280,32 @@ public class AdmiMainActivity extends AppCompatActivity {
             editText_name.setText(signInAccount.getDisplayName());
             editText_email.setText(signInAccount.getEmail());
         }
-        alert.setView(view);
-        alert.setCancelable(false);
-
-
-        button_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                startActivity(new Intent(AdmiMainActivity.this, LoginActivity.class));
-                finish();
-            }
-        });
-
-        final AlertDialog dialog = alert.create();
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        dialog.show();
-
         button_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+
+                alert.cancel();
+
+
             }
         });
+        button_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                startActivity(new Intent(AdmiMainActivity.this, LoginActivity.class));
+                finish();
+
+            }
+
+
+        });
+
+        alert.setView(view);
+
+        alert.show();
+
+
 
 
     }
@@ -313,9 +366,8 @@ public class AdmiMainActivity extends AppCompatActivity {
     }
 
 
-
-    public void agregar(View view){
-        Intent intent3 =new Intent(AdmiMainActivity.this,AgregarActivity.class);
+    public void agregar(View view) {
+        Intent intent3 = new Intent(AdmiMainActivity.this, AgregarActivity.class);
 
         startActivity(intent3);
 

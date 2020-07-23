@@ -64,7 +64,7 @@
         android:layout_marginBottom="196dp"
         android:background="@drawable/bg_button_white"
         android:fontFamily="@font/contrail_one"
-        android:text="Enviar contraseña"
+        android:text="Enviar Solicitud"
 
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"

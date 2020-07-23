@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -20,6 +21,7 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -36,11 +38,15 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gilat.proyectogilat.Entidades.ConfAntena;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -88,13 +94,13 @@ public class MainActivity extends AppCompatActivity {
     //VALORES BUSCADOR
     SearchView search;
     ListaConfAntenaAdapter listaConfAntenaAdapter;
-    List<ConfAntena> lista = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Intent intent2 = getIntent();
         flag = intent2.getStringExtra("flag");
 
@@ -122,16 +128,26 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.nav_mapa:
-                        Intent i = new Intent(MainActivity.this, MapaActivity.class);
+                        Intent i = new Intent(MainActivity.this, MapaUserActivity.class);
                         startActivity(i);
                         break;
                     case R.id.nav_lista:
                         break;
+                    case R.id.nav_face:
+                        Intent inte = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/"));
+                        startActivity(inte);
+                        break;
+                    case R.id.nav_twi:
+                        Intent inte2 = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.twitter.com/"));
+                        startActivity(inte2);
+                        break;
+
+
                 }
                 return true;
             }
         });
-
+        navigationView.setCheckedItem(R.id.nav_lista);
         //----------------------------------------------------------------------------------------------------------------------
         if (flag.equals("SI")) {
             getUserinfo();
@@ -140,21 +156,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-
         readData(new MyCallback() {
             @Override
             public void onCallback(List<ConfAntena> list) {
                 Log.d("TAG", String.valueOf(list.size()));
-
-                listaConfAntenaAdapter = new ListaConfAntenaAdapter(list,MainActivity.this);
+                List<ConfAntena> listanueva = new ArrayList<>();
+                listanueva = list;
+                listaConfAntenaAdapter = new ListaConfAntenaAdapter(listanueva, MainActivity.this);
                 RecyclerView recyclerView = findViewById(R.id.recyclerView);
                 recyclerView.setAdapter(listaConfAntenaAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
             }
         });
-        Log.d("TAG1", String.valueOf(lista.size()));
 
 
         //---------------------------------------------------------------------------------------------
@@ -176,50 +190,54 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //---------------------------------------------------------------------------------------------
-    }
 
-    public void lista() {
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.planets_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        database.getReference().child("ConfAntena").addValueEventListener(new ValueEventListener() {
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //List<ConfAntena> lista = new ArrayList<>();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
 
-               for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    ConfAntena c1 = child.getValue(ConfAntena.class);
+                } else if (position == 1) {
 
-                   lista.add(c1);
-                    Log.d("infoApp", c1.getNombre());
-                    Log.d("infoApp", c1.getFrecuencia());
-                    Log.d("infoApp", c1.getPolarizacion());
+                    String nada = "";
+                    listaConfAntenaAdapter.getFilter().filter(nada);
+                } else if (position == 2) {
+
+                    listaConfAntenaAdapter.getFilter().filter("Huancavelica");
+                } else if (position == 3) {
+
+                    listaConfAntenaAdapter.getFilter().filter("Ayacucho");
+
                 }
-                //String size = String.valueOf(lista.length);
-                //Log.d("size", size);
-
-
 
 
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
 
+
     }
+
 
     public interface MyCallback {
         void onCallback(List<ConfAntena> list);
     }
 
-    private void readData(final MyCallback myCallback){
+    private void readData(final MyCallback myCallback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         database.getReference().child("ConfAntena").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //List<ConfAntena> lista = new ArrayList<>();
+                List<ConfAntena> lista = new ArrayList<>();
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     ConfAntena c1 = child.getValue(ConfAntena.class);
@@ -230,7 +248,6 @@ public class MainActivity extends AppCompatActivity {
                 //String size = String.valueOf(lista.length);
                 //Log.d("size", size);
                 myCallback.onCallback(lista);
-
 
 
             }
@@ -308,20 +325,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void showDialog(View view) {
 
-        AlertDialog.Builder alert;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            alert = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
 
-            alert = new AlertDialog.Builder(this);
-        }
+        AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(
+                MainActivity.this);
         LayoutInflater inflater = getLayoutInflater();
         view = inflater.inflate(R.layout.dialog_sesion, null);
         editText_name = view.findViewById(R.id.dialog_name);
         editText_email = view.findViewById(R.id.dialog_email);
         button_logout = view.findViewById(R.id.dialog_logout);
         button_close = view.findViewById(R.id.dialog_close);
-
+        final AlertDialog alert = alertDialog2.create();
         if (flag.equals("SI")) {
             editText_name.setText(Name_DB);
             editText_email.setText(Email_DB);
@@ -329,30 +342,30 @@ public class MainActivity extends AppCompatActivity {
             editText_name.setText(signInAccount.getDisplayName());
             editText_email.setText(signInAccount.getEmail());
         }
-        alert.setView(view);
-        alert.setCancelable(false);
-
-
-        button_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                finish();
-            }
-        });
-
-        final AlertDialog dialog = alert.create();
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        dialog.show();
-
         button_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+
+                alert.cancel();
+
+
             }
         });
+        button_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
 
+            }
+
+
+        });
+
+        alert.setView(view);
+
+        alert.show();
 
     }
 
@@ -410,8 +423,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
-
 
 
 }

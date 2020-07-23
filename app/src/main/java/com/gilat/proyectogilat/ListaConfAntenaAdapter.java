@@ -56,6 +56,9 @@ public class ListaConfAntenaAdapter extends RecyclerView.Adapter<ListaConfAntena
                     if (item.getNombre().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
+                    if (item.getRegion().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
                 }
             }
             FilterResults results = new FilterResults();
@@ -79,6 +82,7 @@ public class ListaConfAntenaAdapter extends RecyclerView.Adapter<ListaConfAntena
         TextView flag;
         ImageButton imageButtonInfo;
         TextView letter;
+        TextView loca;
         String pola;
         String frecuencia;
         double latitud;
@@ -86,12 +90,10 @@ public class ListaConfAntenaAdapter extends RecyclerView.Adapter<ListaConfAntena
         String potx;
         String potrx;
 
-        //TextView descripcion;
-        //TextView ubicacion;
-        //TextView foto;
-        //TextView comentario;
-        //TextView idAccidente;
-        //buttons
+        String model;
+        String modul;
+        String ganancia;
+        String region;
 
         //Button buttonVerDetalle;
         //Button buttonHecho;
@@ -105,6 +107,7 @@ public class ListaConfAntenaAdapter extends RecyclerView.Adapter<ListaConfAntena
             context = itemView.getContext();
             nombre_incidencia = itemView.findViewById(R.id.nombre_incidencia);
             flag = itemView.findViewById(R.id.flag);
+            loca = itemView.findViewById(R.id.idRegion);
            // buttonVerDetalle = itemView.findViewById(R.id.buttonInfo);
             imageButtonInfo = itemView.findViewById(R.id.imageButtonInfo);
             letter = itemView.findViewById(R.id.letter);
@@ -164,6 +167,11 @@ public class ListaConfAntenaAdapter extends RecyclerView.Adapter<ListaConfAntena
                     intent1.putExtra("potx", potx);
                     intent1.putExtra("potrx", potrx);
 
+                    intent1.putExtra("model", model);
+                    intent1.putExtra("modul", modul);
+                    intent1.putExtra("ganancia", ganancia);
+                    intent1.putExtra("region", region);
+
                     context.startActivity(intent1);
                     break;
 
@@ -195,6 +203,11 @@ public class ListaConfAntenaAdapter extends RecyclerView.Adapter<ListaConfAntena
         String getpot = incidencia.getPotenciaRt();
         String getpotrx = incidencia.getPotenciaRx();
 
+        String getmodel = incidencia.getModelAntena();
+        String getmodul = incidencia.getModulacion();
+        String getganancia = incidencia.getGanancia();
+        String getregion = incidencia.getRegion();
+
         /*
         String getestado = incidencia.getEstado();
         String getdescripcion = incidencia.getDescripcion();
@@ -207,7 +220,7 @@ public class ListaConfAntenaAdapter extends RecyclerView.Adapter<ListaConfAntena
         holder.flag.setText(getflag);
 
         holder.letter.setText(getletter);
-
+        holder.loca.setText(getregion);
 
         List<String> colors;
 
@@ -240,6 +253,10 @@ public class ListaConfAntenaAdapter extends RecyclerView.Adapter<ListaConfAntena
         holder.potx = getpot;
         holder.potrx = getpotrx;
 
+        holder.model= getmodel;
+        holder.modul = getmodul;
+        holder.ganancia = getganancia;
+        holder.region = getregion;
         /*
         holder.estado.setText(getestado);
         holder.descripcion.setText(getdescripcion);

@@ -12,6 +12,46 @@ public class ConfAntena {
     private String flag;
     private String id;
 
+    private String modelAntena;
+    private String modulacion;
+    private String ganancia;
+    private String region;
+
+    public String getModelAntena() {
+        return modelAntena;
+    }
+
+    public void setModelAntena(String modelAntena) {
+        this.modelAntena = modelAntena;
+    }
+
+    public String getModulacion() {
+        return modulacion;
+    }
+
+    public void setModulacion(String modulacion) {
+        this.modulacion = modulacion;
+    }
+
+    public String getGanancia() {
+        return ganancia;
+    }
+
+    public void setGanancia(String ganancia) {
+        this.ganancia = ganancia;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+
+
+
     public String getId() {
         return id;
     }

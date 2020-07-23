@@ -18,6 +18,7 @@
         android:layout_gravity="start"
         android:background="#2c2c2c"
         android:theme="@style/NavigationView"
+        app:itemBackground="@drawable/nav_view_item_background"
         app:headerLayout="@layout/header"
         app:itemIconTint="#8F8F8B"
         app:itemTextColor="#8F8F8B"
@@ -94,7 +95,7 @@
                 android:layout_height="34dp"
                 android:background="@drawable/bg_button_sesion"
                 android:onClick="showDialog"
-                android:src="@drawable/ic_ayuda"
+                android:src="@drawable/ic_face"
                 app:layout_constraintBottom_toBottomOf="@+id/buscador"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.807"
@@ -134,21 +135,18 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="190dp"
+            android:layout_height="35dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="278dp"
-            android:layout_marginTop="108dp"
-            android:layout_marginEnd="45dp"
+            android:layout_marginStart="189dp"
+            android:layout_marginTop="113dp"
+            android:layout_marginEnd="32dp"
             android:layout_marginRight="16dp"
-
-            android:text="generar"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_marginBottom="18dp" />
     </RelativeLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

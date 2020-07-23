@@ -17,33 +17,47 @@
         android:roundIcon="@drawable/logo_gilat"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdmMapsActivity1"></activity>
-        <activity android:name=".BorrarActivity" />
-        <activity android:name=".AdmInfoActivity" />
-        <activity android:name=".AgregarActivity"
+        <activity android:name=".CambioActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".SuperUserActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".MapaUserActivity" />
+        <activity android:name=".AdmMapsActivity1" />
+        <activity android:name=".BorrarActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".AdmInfoActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".AgregarActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"
             />
         <activity
             android:name=".EditarActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".AdmiMainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-             />
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".InfoActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ForgotActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"
+            />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -53,14 +67,20 @@
             android:label="@string/title_activity_maps1" />
         <activity
             android:name=".RegisterActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".MapaActivity" />
         <activity
             android:name=".PantallaInicioActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -69,7 +89,9 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"
+            />
 
         <meta-data
             android:name="preloaded_fonts"

@@ -97,7 +97,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:fontFamily="@font/contrail_one"
-        android:hint="Correo Gilat"
+        android:hint="Correo"
         android:inputType="textPersonName"
         android:textColor="#FFFFFF"
         android:textColorHint="#FBFBFB"

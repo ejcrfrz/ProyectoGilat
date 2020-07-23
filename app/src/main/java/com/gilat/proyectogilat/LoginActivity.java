@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gilat.proyectogilat.Entidades.Usuario;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -27,7 +29,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
@@ -40,9 +46,11 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private EditText editTextPass;
     private Button buttonLogin;
-
+    DatabaseReference databaseReference;
     private String email = "";
     private String password = "";
+    private String admi="";
+    private String key="";
     private FirebaseAuth mAuth;
 
     //VALORES BACKGROUND CAMBIA
@@ -69,8 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             constraintLayout.setBackground(getDrawable(R.drawable.buenas_tardes_200));
             tvTimeMsg.setText("Buenas Tardes");
 
-        }
-        else if(timOfDay >= 18 && timOfDay < 24){
+        } else if (timOfDay >= 18 && timOfDay < 24) {
             constraintLayout.setBackground(getDrawable(R.drawable.imagen_noche));
             tvTimeMsg.setText("Buenas Noches");
         }
@@ -82,18 +89,17 @@ public class LoginActivity extends AppCompatActivity {
         editTextPass = (EditText) findViewById(R.id.in_pass);
         buttonLogin = (Button) findViewById(R.id.button_iniciar_a);
         mAuth = FirebaseAuth.getInstance();
-
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 email = editTextEmail.getText().toString();
                 password = editTextPass.getText().toString();
 
-                if(!email.isEmpty() && !password.isEmpty()){
-                        LoginUser();
-                }
-                else{
-                    Toast.makeText(LoginActivity.this,"Complete los campos!!",Toast.LENGTH_SHORT).show();
+                if (!email.isEmpty() && !password.isEmpty()) {
+                    LoginUser();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Complete los campos!!", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -112,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(LoginActivity.this,ForgotActivity.class));
+                startActivity(new Intent(LoginActivity.this, ForgotActivity.class));
 
             }
         });
@@ -151,6 +157,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -158,12 +165,15 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
+
                         if (task.isSuccessful()) {
+
                             // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                            intent.putExtra("flag","NO");
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("flag", "NO");
                             startActivity(intent);
+
 
                         } else {
                             Toast.makeText(LoginActivity.this, "Sorry auth failed.", Toast.LENGTH_SHORT).show();
@@ -181,37 +191,65 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public void LoginUser(){
+    public void LoginUser() {
 
-            mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
 
-                        if(email.equals("ejcrfrz@gmail.com") && password.equals("1234567")){
-                            Intent intent1 =new Intent(LoginActivity.this,AdmiMainActivity.class);
-                            intent1.putExtra("flag","SI");
-                            startActivity(intent1);
+                    FirebaseUser user = mAuth.getCurrentUser();
+
+                    if (user.isEmailVerified()) {
+
+                        admi = mAuth.getUid();
+                        databaseReference.child("Users/" + admi).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Usuario cuack=  dataSnapshot.getValue(Usuario.class);
+                                //Log.d("cuack",cuack.getAdmi());
+
+                                assert cuack != null;
+                                if (cuack.getAdmi().equals("SI")) {
+                                    Intent intent1 = new Intent(LoginActivity.this, AdmiMainActivity.class);
+                                    intent1.putExtra("flag", "SI");
+                                    startActivity(intent1);
 
 
-                        }
-                        else{
-                            Intent intent1 =new Intent(LoginActivity.this,MainActivity.class);
-                            intent1.putExtra("flag","SI");
-                            startActivity(intent1);
+                                } else {
+                                    Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
+                                    intent1.putExtra("flag", "SI");
+                                    startActivity(intent1);
 
-                        }
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+
+
+
+
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Correo no verificado!!", Toast.LENGTH_LONG).show();
 
 
                     }
-                    else{
-                        Toast.makeText(LoginActivity.this,"No se puedo iniciar sesion pe!",Toast.LENGTH_SHORT).show();
 
-                    }
 
+                } else {
+                    Toast.makeText(LoginActivity.this, "Usuario o Password incorrecto!!", Toast.LENGTH_LONG).show();
 
                 }
-            });
+
+
+            }
+        });
 
 
     }

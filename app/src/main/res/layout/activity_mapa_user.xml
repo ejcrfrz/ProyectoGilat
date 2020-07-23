@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
 
     android:fitsSystemWindows="true"
-    tools:context=".MapaActivity"
+    tools:context=".MapaUserActivity"
     tools:openDrawer="start">
 
     <com.google.android.material.navigation.NavigationView
@@ -22,7 +22,7 @@
         app:headerLayout="@layout/header"
         app:itemIconTint="#8F8F8B"
         app:itemTextColor="#8F8F8B"
-        app:menu="@menu/appbar_admi">
+        app:menu="@menu/appbar">
 
 
 

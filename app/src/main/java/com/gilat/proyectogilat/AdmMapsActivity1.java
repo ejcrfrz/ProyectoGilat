@@ -30,6 +30,11 @@ public class AdmMapsActivity1 extends FragmentActivity implements OnMapReadyCall
     double longitud=0.0;
     String potx="";
     String potrx="";
+
+    String model="";
+    String modul="";
+    String ganancia="";
+    String region="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +50,10 @@ public class AdmMapsActivity1 extends FragmentActivity implements OnMapReadyCall
             potx = extras.getString("potx");
             potrx = extras.getString("potrx");
 
+            model = extras.getString("model");
+            modul = extras.getString("modul");
+            region = extras.getString("region");
+            ganancia = extras.getString("ganancia");
         }
 
 
@@ -126,6 +135,10 @@ public class AdmMapsActivity1 extends FragmentActivity implements OnMapReadyCall
         intent1.putExtra("longitud",longitud);
         intent1.putExtra("potx",potx);
         intent1.putExtra("potrx",potrx);
+        intent1.putExtra("model", model);
+        intent1.putExtra("modul", modul);
+        intent1.putExtra("ganancia", ganancia);
+        intent1.putExtra("region", region);
 
         startActivity(intent1);
 
